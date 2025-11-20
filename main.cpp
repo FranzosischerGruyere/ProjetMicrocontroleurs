@@ -6,6 +6,7 @@
 #include "mbed.h"
 #include "LM75B.h"
 #include "C12832.h"
+#include "MMA7660"
 
 
 // Blinking rate in milliseconds
