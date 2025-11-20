@@ -1,7 +1,7 @@
 ![](./resources/official_armmbed_example_badge.png)
-# Blinky Mbed OS example
+# Snake Game - Accéléromètre Mbed OS
 
-The example project is part of the [Arm Mbed OS Official Examples](https://os.mbed.com/code/) and is the [getting started example for Mbed OS](https://os.mbed.com/docs/mbed-os/latest/quick-start/index.html). It contains an application that repeatedly blinks an LED on supported [Mbed boards](https://os.mbed.com/platforms/).
+Ce projet implémente un jeu Snake contrôlé par l'accéléromètre sur la carte NXP LPC1768. Le serpent se déplace en fonction de l'inclinaison de la carte, détectée par l'accéléromètre intégré. Le jeu utilise l'écran LCD pour l'affichage et les LEDs pour les indicateurs de score.
 
 You can build the project with all supported [Mbed OS build tools](https://os.mbed.com/docs/mbed-os/latest/tools/index.html). However, this example project specifically refers to the command-line interface tools, [Arm Mbed CLI 1](https://github.com/ARMmbed/mbed-cli#installing-mbed-cli) and [Mbed CLI 2](https://github.com/ARMmbed/mbed-tools#installation).
 
@@ -20,11 +20,26 @@ Starting with version 6.5, Mbed OS uses Mbed CLI 2. It uses Ninja as a build sys
 1. From the command-line, import the example: `mbed import mbed-os-example-blinky`
 1. Change the current directory to where the project was imported.
 
-## Application functionality
+## Fonctionnalités du jeu
 
-The `main()` function is the single thread in the application. It toggles the state of a digital output connected to an LED on the board.
+Le jeu Snake utilise les composants suivants de la carte LPC1768 :
+- **Accéléromètre MMA7660** : Contrôle la direction du serpent par inclinaison de la carte
+- **Écran LCD C12832** : Affichage du jeu, score et informations
+- **LEDs** : Indicateurs visuels du score et état du jeu
+- **Boutons** : Contrôles supplémentaires (pause, redémarrage)
 
-**Note**: This example requires a target with RTOS support, i.e. one with `rtos` declared in `supported_application_profiles` in `targets/targets.json` in [mbed-os](https://github.com/ARMmbed/mbed-os). For non-RTOS targets (usually with small memory sizes), please use [mbed-os-example-blinky-baremetal](https://github.com/ARMmbed/mbed-os-example-blinky-baremetal) instead.
+### Contrôles
+- **Inclinaison de la carte** : Change la direction du serpent (haut, bas, gauche, droite)
+- **Bouton central (joystick)** : Pause/reprise du jeu
+- **Bouton haut** : Redémarrage du jeu
+
+### Règles du jeu
+- Le serpent grandit en mangeant la nourriture (représentée par un carré)
+- Éviter les collisions avec les murs ou le corps du serpent
+- Le score augmente à chaque nourriture mangée
+- Vitesse progressive pour augmenter la difficulté
+
+**Note**: Ce projet nécessite un target avec support RTOS.
 
 ## Building and running
 
@@ -51,20 +66,31 @@ The binary is located at:
 
 Alternatively, you can manually copy the binary to the board, which you mount on the host computer over USB.
 
-## Expected output
-The LED on your target turns on and off every 500 milliseconds.
+## Fonctionnement attendu
+- Le serpent apparaît au centre de l'écran LCD
+- La nourriture est représentée par un carré qui apparaît aléatoirement
+- Inclinez la carte pour déplacer le serpent dans la direction souhaitée
+- Le score s'affiche en temps réel sur l'écran
+- Les LEDs indiquent le niveau de score (plus de LEDs = meilleur score)
+- Game Over s'affiche lorsque le serpent touche un mur ou lui-même
 
+## Composants utilisés
+- **MMA7660** : Accéléromètre pour le contrôle du serpent
+- **C12832** : Écran LCD pour l'affichage du jeu
+- **DigitalOut** : LEDs pour les indicateurs visuels
+- **DigitalIn** : Boutons du joystick pour les contrôles
+- **Timer** : Gestion du timing du jeu
 
 ## Troubleshooting
 If you have problems, you can review the [documentation](https://os.mbed.com/docs/latest/tutorials/debugging.html) for suggestions on what could be wrong and how to fix it.
 
-## Related Links
+## Liens utiles
 
-* [Mbed OS Stats API](https://os.mbed.com/docs/latest/apis/mbed-statistics.html).
-* [Mbed OS Configuration](https://os.mbed.com/docs/latest/reference/configuration.html).
-* [Mbed OS Serial Communication](https://os.mbed.com/docs/latest/tutorials/serial-communication.html).
-* [Mbed OS bare metal](https://os.mbed.com/docs/mbed-os/latest/reference/mbed-os-bare-metal.html).
-* [Mbed boards](https://os.mbed.com/platforms/).
+* [Documentation Mbed OS](https://os.mbed.com/docs/).
+* [Bibliothèque MMA7660 (Accéléromètre)](https://os.mbed.com/components/MMA7660/).
+* [Bibliothèque C12832 (Écran LCD)](https://os.mbed.com/users/chris/code/C12832/).
+* [Guide de programmation Mbed OS](https://os.mbed.com/docs/mbed-os/latest/apis/index.html).
+* [Carte NXP LPC1768](https://os.mbed.com/platforms/mbed-LPC1768/).
 
 ### License and contributions
 
