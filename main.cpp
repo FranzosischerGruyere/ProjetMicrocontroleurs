@@ -4,6 +4,8 @@
  */
 
 #include "mbed.h"
+#include "LM75B.h"
+#include "C12832.h"
 
 
 // Blinking rate in milliseconds
